@@ -17,7 +17,12 @@ Image.prototype.renderTo = function(srcEle) {
         this.element.setAttribute('alt', this.name);
         this.element.setAttribute('title', this.name);
     }
+    if (!this.nameElement) {
+        this.nameElement = document.createElement('div');
+        this.nameElement.innerText = this.name;
+    }
     srcEle.appendChild(this.element);
+    srcEle.appendChild(this.nameElement);
 };
 
 /**
@@ -25,5 +30,7 @@ Image.prototype.renderTo = function(srcEle) {
  */
 Image.prototype.destroy = function() {
     this.element.parentNode.removeChild(this.element);
+    this.nameElement.parentNode.removeChild(this.nameElement);
     delete this.element;
+    delete this.nameElement;
 };

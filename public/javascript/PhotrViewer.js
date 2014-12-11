@@ -35,12 +35,10 @@ function PhotrViewer(ele, images) {
 
     this.imageContainer = document.createElement('div');
     this.imageContainer.setAttribute('class', 'imageContainer');
-    this.ele.appendChild(this.imageContainer);
 
-    var buttons = document.createElement('div');
-    this.prevButton = new Button(buttons, 'Previous', this.previous.bind(this));
-    this.nextButton = new Button(buttons, 'Next', this.next.bind(this));
-    this.ele.appendChild(buttons);
+    this.prevButton = new Button(this.ele, '<', this.previous.bind(this));
+    this.ele.appendChild(this.imageContainer);
+    this.nextButton = new Button(this.ele, '>', this.next.bind(this));
 
     this.currentImageIndex = 0;
 
