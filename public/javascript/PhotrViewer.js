@@ -1,9 +1,14 @@
 /**
 * A photr button
 */
-function Button(ele, className, clickHandler) {
-    this.button = getByClassName(className, ele);
+function Button(ele, name, clickHandler) {
+    this.button = document.createElement('button');
+    this.button.innerText = name;
+    //Disabled by default
+    this.disable();
     this.button.addEventListener('click', clickHandler);
+
+    ele.appendChild(this.button);
 }
 
 Button.prototype.enable = function() {
@@ -19,12 +24,23 @@ Button.prototype.disable = function() {
  * images and a way to cycle through them.
  */
 function PhotrViewer(ele, images) {
+    if (!ele || !ele.tagName || !ele.tagName.match(/^div$/i)) {
+        throw new Error('Need a div element to create a photr viewer');
+    }
+
     this.ele = ele;
-    this.imageContainer = getByClassName('imageContainer', this.ele);
+    this.ele.setAttribute('class', 'photrViewer');
+
     this.images = images;
 
-    this.prevButton = new Button(this.ele, 'previous', this.previous.bind(this));
-    this.nextButton = new Button(this.ele, 'next', this.next.bind(this));
+    this.imageContainer = document.createElement('div');
+    this.imageContainer.setAttribute('class', 'imageContainer');
+    this.ele.appendChild(this.imageContainer);
+
+    var buttons = document.createElement('div');
+    this.prevButton = new Button(buttons, 'Previous', this.previous.bind(this));
+    this.nextButton = new Button(buttons, 'Next', this.next.bind(this));
+    this.ele.appendChild(buttons);
 
     this.currentImageIndex = 0;
 

@@ -15,7 +15,7 @@
     }
 
     global.addEventListener('load', function() {
-        var viewer = new PhotrViewer(getById('photrViewer'), getImages());
+        var viewer = new PhotrViewer(getById('yahooImageSearch'), getImages());
 
     });
 })(window);
