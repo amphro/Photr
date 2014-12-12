@@ -1,8 +1,9 @@
 /**
 * A photr button
 */
-function Button(ele, name, clickHandler) {
+function Button(ele, name, className, clickHandler) {
     this.button = document.createElement('button');
+    this.button.setAttribute('class', className);
     this.button.innerText = name;
     //Disabled by default
     this.disable();
@@ -37,9 +38,9 @@ function PhotrViewer(ele, images) {
     this.imageContainer = document.createElement('div');
     this.imageContainer.setAttribute('class', 'imageContainer');
 
-    this.prevButton = new Button(this.ele, '<', this.previous.bind(this));
+    this.prevButton = new Button(this.ele, '<', 'left', this.previous.bind(this));
     this.ele.appendChild(this.imageContainer);
-    this.nextButton = new Button(this.ele, '>', this.next.bind(this));
+    this.nextButton = new Button(this.ele, '>', 'right', this.next.bind(this));
 
     this.currentImageIndex = 0;
 

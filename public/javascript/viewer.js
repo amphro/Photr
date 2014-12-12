@@ -14,10 +14,34 @@
         return images;
     }
 
-    global.addEventListener('load', function() {
-        var images = getImages();
-        var viewer = new PhotrViewer(null, images);
+    function getImagesFromFlickr() {
+        var req = new XMLHttpRequest();
+        req.addEventListener('readystatechange', function() {
+            if (req.readyState === 4) {
+                var json = JSON.parse(req.responseText);
 
-        new LightBox(viewer.ele);
+                if (!json || !json.photoset || !json.photoset.photo) {
+                    throw new Error('Not photos found: ' + JSON.stringify(json));
+                }
+
+                var photos = json.photoset.photo;
+                var images = [];
+
+                for (var i = 0, size = photos.length; i < size; i++) {
+                    var photo = photos[i];
+                    images.push(new Image(photo.title, photo.url_m, photo.height_m, photo.width_m));
+                }
+
+                var viewer = new PhotrViewer(null, images);
+                new LightBox(viewer.ele);
+            }
+        });
+        req.open('GET', '/flickrPhotos');
+        req.send();
+    }
+
+    global.addEventListener('load', function() {
+
+        getImagesFromFlickr();
     });
 })(window);

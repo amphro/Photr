@@ -1,9 +1,11 @@
 /**
  * Represents an image that may or may not be rendered to the dom
  */
-function Image(name, src) {
+function Image(name, src, height, width) {
     this.name = name;
     this.src = src;
+    this.height = height;
+    this.width = width;
 }
 
 /**
@@ -16,6 +18,14 @@ Image.prototype.renderTo = function(srcEle) {
         this.element.setAttribute('class', 'tile');
         this.element.setAttribute('alt', this.name);
         this.element.setAttribute('title', this.name);
+
+        if (this.height) {
+            this.element.setAttribute('height', this.height);
+        }
+
+        if (this.width) {
+            this.element.setAttribute('width', this.width);
+        }
     }
     if (!this.nameElement) {
         this.nameElement = document.createElement('div');
