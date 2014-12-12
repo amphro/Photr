@@ -20,10 +20,10 @@ function LightBox(content) {
     this.box.appendChild(this.closeButton);
     this.glass.appendChild(this.box);
     document.body.appendChild(this.glass);
-    document.addEventListener('keydown', this.handelKey.bind(this));
+    document.addEventListener('keydown', this.handleKey.bind(this));
 }
 
-LightBox.prototype.handelKey = function(event) {
+LightBox.prototype.handleKey = function(event) {
     var keyCode = event.keyCode || event.charCode || event.which;
 
     if (keyCode === /*Escape*/27 || keyCode === /*x*/88) {

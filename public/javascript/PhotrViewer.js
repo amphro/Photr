@@ -50,6 +50,19 @@ function PhotrViewer(ele, images) {
         this.images[0].renderTo(this.imageContainer);
         this.updateNavigationButtons();
     }
+
+    // Keep a reference to the bind function to remove later
+    this.ele.keyListener = this.handleKeys.bind(this);
+
+    // We add the listener on the document in case the focus is elsewhere.
+    // TODO This will not work if there are multiple photr viewers on the page.
+    document.addEventListener('keydown', this.ele.keyListener);
+
+    // If this node happens to get removed (which will happen then the light
+    // box gets closed), then remove the listener from the document
+    this.ele.addEventListener('DOMNodeRemovedFromDocument', function() {
+        document.removeEventListener('keydown', this.ele.keyListener);
+    }.bind(this));
 }
 
 /**
@@ -103,3 +116,17 @@ PhotrViewer.prototype.next = function() {
     // Now that we moved the index, update the buttons...
     this.updateNavigationButtons();
 };
+
+PhotrViewer.prototype.handleKeys = function(event) {
+    var key = event.keyCode || event.charCode || event.which;
+
+    if (key === /*Left arrow*/37) {
+        this.previous();
+        event.preventDefault();
+        event.stopPropagation();
+    } else if (key === /*Right arrow*/39) {
+        this.next();
+        event.preventDefault();
+        event.stopPropagation();
+    }
+}

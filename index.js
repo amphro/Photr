@@ -58,7 +58,7 @@ app.get('/flickrPhotos', function(req, res) {
         .param('method', 'flickr.photosets.getPhotos')
         // Use an enviornment variable for api keys
         .param('api_key', process.env.FLICKR_API_KEY)
-        .param('photoset_id', '72157626579923453')
+        .param('photoset_id', req.query.photosetId)
         .param('format', 'json')
         .param('extras', 'url_m')
         .build();

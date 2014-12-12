@@ -14,7 +14,7 @@
         return images;
     }
 
-    function getImagesFromFlickr() {
+    function viewFlickrImages(photoSetId) {
         var req = new XMLHttpRequest();
         req.addEventListener('readystatechange', function() {
             if (req.readyState === 4) {
@@ -36,12 +36,14 @@
                 new LightBox(viewer.ele);
             }
         });
-        req.open('GET', '/flickrPhotos');
+        req.open('GET', '/flickrPhotos?photosetId=' + photoSetId);
         req.send();
     }
 
     global.addEventListener('load', function() {
-
-        getImagesFromFlickr();
+        getById("viewFlickrPhotoset").addEventListener('click', function() {
+            var photoSetId = getById("flickrPhotosetId").value;
+            viewFlickrImages(photoSetId);
+        });
     });
 })(window);
