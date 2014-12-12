@@ -25,7 +25,8 @@ Button.prototype.disable = function() {
  */
 function PhotrViewer(ele, images) {
     if (!ele || !ele.tagName || !ele.tagName.match(/^div$/i)) {
-        throw new Error('Need a div element to create a photr viewer');
+        //throw new Error('Need a div element to create a photr viewer');
+        ele = document.createElement('div');
     }
 
     this.ele = ele;
