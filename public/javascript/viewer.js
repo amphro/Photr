@@ -15,6 +15,18 @@
     }
 
     function viewFlickrImages(photoSetId) {
+        var spinner = document.createElement('div');
+        spinner.setAttribute('class', 'spinner');
+
+        spinner.innerHTML =
+            '<div class="rect1"></div>' +
+            '<div class="rect2"></div>' +
+            '<div class="rect3"></div>' +
+            '<div class="rect4"></div>' +
+            '<div class="rect5"></div>';
+
+        var lightBox = new LightBox(spinner, 70, 110);
+
         var req = new XMLHttpRequest();
         req.addEventListener('readystatechange', function() {
             if (req.readyState === 4) {
@@ -33,7 +45,7 @@
                 }
 
                 var viewer = new PhotrViewer(null, images);
-                new LightBox(viewer.ele);
+                lightBox.replace(viewer.ele, 350, 500);
             }
         });
         req.open('GET', '/flickrPhotos?photosetId=' + photoSetId);
