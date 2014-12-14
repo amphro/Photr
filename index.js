@@ -3,6 +3,7 @@ var https = require('https');
 var app = express();
 var port = process.env.PORT || 8080;
 var path = require('path');
+url = require("url");
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -83,16 +84,28 @@ app.get('/flickrPhotos', function(req, res) {
 * and checked into git hub.
 */
 app.get('/searchGoogleImages', function(req, res) {
-    var url = new Url('https://www.googleapis.com/customsearch/v1')
+    var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
+
+    var url = url.parse(new Url('https://www.googleapis.com/customsearch/v1')
     .param('searchType', 'image')
     // Use an enviornment variable for api keys
     .param('key', process.env.GOOGLE_API_KEY)
     .param('q', req.query.searchString)
     .param('imgSize', 'medium')
     .param('cx', '014185715683879608906:mznjafyz2sg')
-    .build();
+    .build());
 
-    get(url, function(data) {
+    var options = {
+        hostname: proxy.hostname,
+        port: proxy.port || 80,
+        path: url.href,
+        headers: {
+            "Proxy-Authorization": "Basic " + (new Buffer(proxy.auth).toString("base64")),
+            "Host" : url.hostname
+        }
+    };
+
+    get(options, function(data) {
         res.send(data)
     });
 });
