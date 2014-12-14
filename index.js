@@ -1,9 +1,10 @@
 var express = require('express');
+var http = require('http');
 var https = require('https');
 var app = express();
 var port = process.env.PORT || 8080;
 var path = require('path');
-url = require("url");
+var url = require("url");
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -13,8 +14,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 /**
  * Get the response text from a GET rest call to a specific url
  */
-function get(url, cb) {
-    https.get(url, function callback(response) {
+function get(protocol, url, cb) {
+    protocol.get(url, function callback(response) {
         var str = '';
         response.on('data', function (chunk) { str += chunk; });
         response.on('end', function () { cb(str); });
@@ -73,7 +74,7 @@ app.get('/flickrPhotos', function(req, res) {
         return rawJson[1];
     }
 
-    get(url, function(data) {
+    get(https, url, function(data) {
         res.send(parseFlickResponse(data))
     });
 });
@@ -86,7 +87,7 @@ app.get('/flickrPhotos', function(req, res) {
 app.get('/searchGoogleImages', function(req, res) {
     var proxy = url.parse(process.env.QUOTAGUARDSTATIC_URL);
 
-    var url = url.parse(new Url('https://www.googleapis.com/customsearch/v1')
+    var target = url.parse(new Url('https://www.googleapis.com/customsearch/v1')
     .param('searchType', 'image')
     // Use an enviornment variable for api keys
     .param('key', process.env.GOOGLE_API_KEY)
@@ -98,14 +99,14 @@ app.get('/searchGoogleImages', function(req, res) {
     var options = {
         hostname: proxy.hostname,
         port: proxy.port || 80,
-        path: url.href,
+        path: target.href,
         headers: {
             "Proxy-Authorization": "Basic " + (new Buffer(proxy.auth).toString("base64")),
-            "Host" : url.hostname
+            "Host" : target.hostname
         }
     };
 
-    get(options, function(data) {
+    get(http, options, function(data) {
         res.send(data)
     });
 });
