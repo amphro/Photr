@@ -77,5 +77,25 @@ app.get('/flickrPhotos', function(req, res) {
     });
 });
 
+/**
+* A route to get photos via google search. We could make the API request
+* from the client, but then our API key would in out client side JS,
+* and checked into git hub.
+*/
+app.get('/searchGoogleImages', function(req, res) {
+    var url = new Url('https://www.googleapis.com/customsearch/v1')
+    .param('searchType', 'image')
+    // Use an enviornment variable for api keys
+    .param('key', process.env.GOOGLE_API_KEY)
+    .param('q', req.query.searchString)
+    .param('imgSize', 'medium')
+    .param('cx', '014185715683879608906:mznjafyz2sg')
+    .build();
+
+    get(url, function(data) {
+        res.send(data)
+    });
+});
+
 app.listen(port);
 console.log('Listening on ' + port);
