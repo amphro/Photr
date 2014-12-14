@@ -29,7 +29,7 @@ Image.prototype.renderTo = function(srcEle) {
     }
     if (!this.nameElement) {
         this.nameElement = document.createElement('div');
-        this.nameElement.innerText = this.name;
+        setText(this.nameElement, this.name);
     }
     srcEle.appendChild(this.element);
     srcEle.appendChild(this.nameElement);

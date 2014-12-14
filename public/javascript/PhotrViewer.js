@@ -4,7 +4,7 @@
 function Button(ele, name, className, clickHandler) {
     this.button = document.createElement('button');
     this.button.setAttribute('class', className);
-    this.button.innerText = name;
+    setText(this.button, name);
     //Disabled by default
     this.disable();
     this.button.addEventListener('click', clickHandler);

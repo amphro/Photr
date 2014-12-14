@@ -9,5 +9,9 @@
         global.getById = function getById(id) {
             return global.document.getElementById(id);
         };
+
+        global.setText = function setText(ele, text) {
+            ele.innerText = ele.textContent = text;
+        }
     }
 })(window);

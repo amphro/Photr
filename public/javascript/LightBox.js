@@ -11,7 +11,7 @@ function LightBox(content, height, width) {
 
     this.closeButton = document.createElement('div');
     this.closeButton.setAttribute('class', 'close');
-    this.closeButton.innerText = 'X';
+    setText(this.closeButton, 'X');
     this.closeButton.addEventListener('click', this.destroy.bind(this));
 
     if (typeof content.renderTo === 'function') {
@@ -22,7 +22,9 @@ function LightBox(content, height, width) {
 
     this.glass.appendChild(this.box);
     document.body.appendChild(this.glass);
-    document.addEventListener('keydown', this.handleKey.bind(this));
+
+    this.bindedHandelFn = this.handleKey.bind(this);
+    document.addEventListener('keydown', this.bindedHandelFn);
 }
 
 /**
@@ -60,6 +62,6 @@ LightBox.prototype.handleKey = function(event) {
  * Remove the lightbox from the dom and the event handler from the document
  */
 LightBox.prototype.destroy = function() {
-    document.removeEventListener(this.handelKey);
+    document.removeEventListener('keydown', this.bindedHandelFn);
     document.body.removeChild(this.glass);
 };
