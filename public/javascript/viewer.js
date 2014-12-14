@@ -78,15 +78,15 @@
         get('/searchGoogleImages?searchString=' + searchTerm, function(json) {
             console.log(json);
             if (json.error) {
-                setError(json.error.message);
+                setError(lightBox, json.error.message);
                 return;
             }
             if (!json.items) {
-                setError('Error getting images. Please try again.');
+                setError(lightBox, 'Error getting images. Please try again.');
                 return;
             }
             if (json.items.length === 0) {
-                setError('No images found.');
+                setError(lightBox, 'No images found.');
                 return;
             }
 
@@ -114,6 +114,9 @@
 
         getById("viewGoogleResults").addEventListener('click', function() {
             var searchTerm = getById("googleSearchTerm").value;
+
+            // TODO set the error for an empty search term without doing the API call
+
             searchGoogleImages(searchTerm);
         });
     });
