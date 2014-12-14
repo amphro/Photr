@@ -2,18 +2,6 @@
  * Init the photr viewers for index.html
  */
 (function(global) {
-
-    function getImages() {
-        var images = [];
-
-        for (var i = 0; i < 10; i++) {
-            var imageName = 'testImg' + i;
-            images.push(new Image(imageName, imageName));
-        }
-
-        return images;
-    }
-
     /**
      * Set a loading spinner in a new lightbox
      */
@@ -83,6 +71,10 @@
             return { width: width, height: height };
         }
 
+        /* TODO This will only get the first 10 images. The response gives you a
+            url to get the next batch of images. I would changes this so the photr
+            viewer would query for the next set of images when it gets close to the
+            the end. */
         get('/searchGoogleImages?searchString=' + searchTerm, function(json) {
             console.log(json);
             if (json.error) {
