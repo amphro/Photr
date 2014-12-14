@@ -2,7 +2,4 @@ Photr is a simple app to view images from flixr photosets, or google images.
 
 The app can be viewed at https://fierce-falls-2100.herokuapp.com/
 
-Due to the API restrictions of the google API and heroku, I'm using Quotaguard Static 
-to get a static IP that google API can whitelist. However the free edition only allows 250
-request a month. That means that the google image search feature on the heroku app may 
-suddenly stop working.
+Due to the API restrictions of the google API and heroku, I'm using Quotaguard Static to get a static IP that google API can whitelist. However the free edition only allows 250 request a month. That means that the google image search feature on the heroku app may suddenly stop working.
